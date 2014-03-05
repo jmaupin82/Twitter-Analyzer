@@ -1,15 +1,10 @@
 package com.cs5513.presentationlayer;
 
+import java.awt.PageAttributes.MediaType;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Request;
-import javax.ws.rs.core.UriInfo;
+import org.omg.CORBA.Request;
 
 import com.cs5513.businesslayer.BusinessManager;
 import com.cs5513.entities.Event;
