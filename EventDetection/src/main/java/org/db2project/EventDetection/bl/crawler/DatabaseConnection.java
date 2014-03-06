@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import oracle.jdbc.driver.OracleConnection;
+
 public class DatabaseConnection {
 	
 	
@@ -11,7 +13,7 @@ public class DatabaseConnection {
 	/*
 	 * Information regarding the database connection that we will use
 	 */
-	private final String DB_ADDRESS = "jdbc:oracle:thin:maup1282@//oracle.cs.ou.edu:1521/pdborcl.cs.ou.edu";
+	private final String DB_ADDRESS = "jdbc:oracle:thin:@//oracle.cs.ou.edu:1521/pdborcl.cs.ou.edu";
     private final String USER_NAME = "maup1282";
     private final String PASSWORD = "WTpy3Lp5";
     
@@ -23,7 +25,7 @@ public class DatabaseConnection {
 		
 		//open the database
 		try {
-			   this.dbConnection = DriverManager.getConnection(DB_ADDRESS,USER_NAME, PASSWORD);
+			   this.dbConnection = (OracleConnection) DriverManager.getConnection(DB_ADDRESS,USER_NAME, PASSWORD);
 			} catch (SQLException e) {
 			    e.printStackTrace();
 			    IS_OPEN = false;
