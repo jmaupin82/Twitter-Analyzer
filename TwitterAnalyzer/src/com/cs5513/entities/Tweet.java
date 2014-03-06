@@ -35,7 +35,7 @@ public class Tweet {
 	 * The possible position of the tweet
 	 * (Not mandatory)
 	 */
-	private Position position;
+	private Location position;
 	
 	public Tweet()
 	{
@@ -55,7 +55,7 @@ public class Tweet {
 		this.date = date;
 		this.authorId = authorId;
 		this.message = message;
-		this.position = new Position();
+		this.position = new Location();
 	}
 	
 	/**
@@ -66,7 +66,7 @@ public class Tweet {
 	 * @param date the date of publication of the tweet
 	 * @param position position of the tweet (if not specified use the other constructor)
 	 */
-	public Tweet(String id, String authorId, String message, Date date, Position position)
+	public Tweet(String id, String authorId, String message, Date date, Location position)
 	{
 		this(id,authorId,message,date);
 		this.position = position;
@@ -104,11 +104,11 @@ public class Tweet {
 		this.message = message;
 	}
 	
-	public Position getPosition() {
+	public Location getPosition() {
 		return position;
 	}
 	
-	public void setPosition(Position position) {
+	public void setPosition(Location position) {
 		this.position = position;
 	}
 

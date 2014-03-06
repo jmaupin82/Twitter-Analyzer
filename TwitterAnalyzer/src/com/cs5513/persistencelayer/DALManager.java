@@ -4,8 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.cs5513.entities.Event;
-import com.cs5513.entities.Position;
-import com.cs5513.entities.Tweet;
+import com.cs5513.entities.Location;
 
 
 public class DALManager {
@@ -41,6 +40,7 @@ public class DALManager {
 		case ORACLE:
 			break;
 		case AMAZON_S3:
+			
 			break;
 		}
 	}
@@ -57,13 +57,12 @@ public class DALManager {
 		return dal.getAllEvents();
 	}
 
-	public boolean createEvent(String id, Date startDate, Date endDate, Position position) {
+	public List<Event> getEventsByDate(Date d) {
+		return dal.getEventsByDate(d);
+	}
+	
+	public boolean createEvent(String id, Date startDate, Date endDate, Location position) {
 		return dal.createEvent(id, startDate, endDate, position);
 	}
-
-	public List<Tweet> getTweetByEvent(String eventId) {
-		return dal.getTweetByEvent(eventId);
-	}
-
 	
 }

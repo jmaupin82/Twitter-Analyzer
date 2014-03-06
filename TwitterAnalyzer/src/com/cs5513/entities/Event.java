@@ -42,7 +42,7 @@ public class Event {
 	/**
 	 * Event position
 	 */
-	private Position position;
+	private Location position;
 	
 	/**
 	 * Default constructor, requiered by servlets
@@ -64,7 +64,7 @@ public class Event {
 		this.endDate = endDate;
 	}
 	
-	public Event(Date startDate, Date endDate, Position position)
+	public Event(Date startDate, Date endDate, Location position)
 	{
 		this(startDate);
 		this.endDate = endDate;
@@ -135,11 +135,11 @@ public class Event {
 		this.tweets = tweets;
 	}
 	
-	public Position getPosition() {
+	public Location getPosition() {
 		return position;
 	}
 	
-	public void setPosition(Position position) {
+	public void setPosition(Location position) {
 		this.position = position;
 	}
 

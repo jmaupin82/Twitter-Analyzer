@@ -5,7 +5,7 @@ package com.cs5513.entities;
  * @author Mikaël Perrin
  * Class modelizing the position for events, tweet, etc
  */
-public class Position {
+public class Location {
 
 
 	/**
@@ -23,7 +23,7 @@ public class Position {
 	 * @param long the position longitude
 	 * @param lat the position latitude
 	 */
-	public Position(float latitude, float longitude)
+	public Location(float latitude, float longitude)
 	{
 		this.latitude = latitude;
 		this.longitude = longitude;
@@ -32,7 +32,7 @@ public class Position {
 	/**
 	 * Default constructor
 	 */
-	public Position()
+	public Location()
 	{
 		latitude = 0;
 		longitude = 0;
