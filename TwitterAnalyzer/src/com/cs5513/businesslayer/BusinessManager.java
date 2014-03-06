@@ -1,5 +1,6 @@
 package com.cs5513.businesslayer;
 
+import java.util.Date;
 import java.util.List;
 
 import com.cs5513.entities.Event;
@@ -56,8 +57,16 @@ public class BusinessManager {
 		return dalManager.getAllEvents();
 	}
 	
+	/**
+	 * Method asking to the data access layer to provide all the events for a given date
+	 * @param date the date where the event happens
+	 */
+	public List<Event> getEventsByDate(Date d)
+	{
+		return dalManager.getEventsByDate(d);
+	}
+	
 	// methods to modify data items
 	
 	
-	// methods launching our algorithm items (crawler, analyzer, etc...)
 }

@@ -4,8 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.cs5513.entities.Event;
-import com.cs5513.entities.Position;
-import com.cs5513.entities.Tweet;
+import com.cs5513.entities.Location;
 
 /**
  * Interface describing what method should contain any
@@ -31,7 +30,7 @@ public interface IDAL {
 	 * @param eventId the event identifier
 	 * @return all the corresponding tweets
 	 */
-	List<Tweet> getTweetByEvent(String eventId);
+	//List<Tweet> getTweetByEvent(String eventId);
 	
 	/**
 	 * Method to get all events by location from the database
@@ -45,7 +44,7 @@ public interface IDAL {
 	 * @param d the date of the event
 	 * @return all the events corresponding to this date
 	 */
-	//List<Event> getEventsByDate(Date d);
+	List<Event> getEventsByDate(Date d);
 	
 	/**
 	 * Method to get all the events by keyword from the database
@@ -69,6 +68,7 @@ public interface IDAL {
 	 * @param position the position of the event
 	 * @return true if the event has been created, false otherwise
 	 */
-	boolean createEvent(String id, Date startDate, Date endDate, Position position);
+	boolean createEvent(String id, Date startDate, Date endDate, Location position);
+
 	
 }
