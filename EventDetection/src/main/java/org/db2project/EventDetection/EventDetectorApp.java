@@ -16,7 +16,7 @@ public class EventDetectorApp
         try{
         	Crawler.oauth(args[0], args[1], args[2], args[3]);
         } catch(Exception e){
-        	System.out.println(e);
+        	e.printStackTrace();
         }
     }
 }
