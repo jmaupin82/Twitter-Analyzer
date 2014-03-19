@@ -1,1 +1,17 @@
-/target
+/build/
+/target/
+
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+.project
+.metadata
+.settings/
+.classpath
+
+Thumbs.db
+Desktop.ini
