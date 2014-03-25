@@ -64,7 +64,7 @@ public class AdjacencyListGraph<T> implements Graph<T> {
 	 * 
 	 */
 
-	public void addEdge(GraphNode<T> source, GraphNode<T> target, int cost) {
+	public void addEdge(GraphNode<T> source, GraphNode<T> target, float cost) {
 		ArrayList<Edge<T>> sourceNodeChildren = getAllNodes().get(source);
 
 		Edge<T> edgeFromSToT = new Edge<T>(source, target, cost);

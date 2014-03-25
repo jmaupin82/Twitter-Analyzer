@@ -9,7 +9,7 @@ public abstract interface Graph<T> {
 	public abstract void addNode(GraphNode<T> node);
 	
 	/** To add an edge to the graph */
-	public abstract void addEdge(GraphNode<T> source, GraphNode<T> target, int cost);
+	public abstract void addEdge(GraphNode<T> source, GraphNode<T> target, float cost);
 	
 	/**
 	 * This method is used to ensure that the graph is properly

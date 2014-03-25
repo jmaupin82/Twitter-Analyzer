@@ -16,7 +16,7 @@ import java.util.Set;
  *
  * @param <T>
  */
-public abstract class AdjacencyMatrixGraph<T> implements Graph<T> {
+public class AdjacencyMatrixGraph<T> implements Graph<T> {
 
 	/**
 	 * These two map Nodes to their numeric Ids.
@@ -105,7 +105,7 @@ public abstract class AdjacencyMatrixGraph<T> implements Graph<T> {
 	 * 
 	 */
 
-	public void addEdge(GraphNode<T> source, GraphNode<T> target, int cost) {
+	public void addEdge(GraphNode<T> source, GraphNode<T> target, float cost) {
 		Edge<T> edgeFromSToT = new Edge<T>(source, target, cost);
 
 		tempEdges.add(edgeFromSToT);
