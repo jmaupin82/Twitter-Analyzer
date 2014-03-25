@@ -38,6 +38,7 @@ public class DALManager {
 			dal = new StubDAL() ;
 			break;
 		case ORACLE:
+			//dal = new OracleDAL();
 			break;
 		case AMAZON_S3:
 			
