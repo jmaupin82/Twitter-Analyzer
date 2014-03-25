@@ -1,4 +1,4 @@
-package com.cs5513.entities;
+package com.cs5513.client.items;
 
 import java.util.Date;
 
@@ -6,9 +6,9 @@ import java.util.Date;
 /**
  * 
  * @author Mikaël Perrin
- * Class allowing to modelize tweets
+ * Class allowing to modelize tweets items
  */
-public class Tweet {
+public class TweetItem {
 
 	/**
 	 * The tweet id
@@ -35,40 +35,24 @@ public class Tweet {
 	 * The possible position of the tweet
 	 * (Not mandatory)
 	 */
-	private Location position = null;
+	private LocationItem location;
 	
-	public Tweet()
-	{
-		
-	}
 	
 	/**
-	 * First tweet constructor, to be used without position
-	 * @param id the tweet id
-	 * @param author the tweet author id
-	 * @param message the tweet message
-	 * @param date the date of publication of the tweet
-	 */
-	public Tweet(String id, String authorId, String message, Date date)
-	{
-		this.id = id;
-		this.date = date;
-		this.authorId = authorId;
-		this.message = message;
-	}
-	
-	/**
-	 * Second tweet constructor
+	 * tweet item constructor
 	 * @param id the tweet id
 	 * @param author the tweet author id
 	 * @param message the tweet message
 	 * @param date the date of publication of the tweet
 	 * @param position position of the tweet (if not specified use the other constructor)
 	 */
-	public Tweet(String id, String authorId, String message, Date date, Location position)
+	public TweetItem(String id, String authorId, String message, Date date, LocationItem  location)
 	{
-		this(id,authorId,message,date);
-		this.position = position;
+		this.id = id;
+		this.date = date;
+		this.authorId = authorId;
+		this.message = message;
+		this.location = location;
 	}
 	
 	public String getId() {
@@ -103,13 +87,35 @@ public class Tweet {
 		this.message = message;
 	}
 	
-	public Location getPosition() {
-		return position;
+	public LocationItem getLocation() {
+		return location;
 	}
 	
-	public void setPosition(Location position) {
-		this.position = position;
+	public void setLocation(LocationItem position) {
+		this.location = position;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("tweet:");
+		sb.append(id);
+		sb.append("\nauthor:");
+		sb.append(authorId);
+		sb.append("\ndate:");
+		sb.append(date);
+		sb.append("\nmessage:");
+		sb.append(message);
+		
+		if (location != null)
+		{
+			sb.append("\nlocation: [");
+			sb.append(location);
+			sb.append("]");
+		}
+		
+		
+		return sb.toString();
+	}
 	
 }

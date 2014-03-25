@@ -58,19 +58,31 @@ public class StubDAL implements IDAL{
 			
 			// STUB : Events creation 
 			Event e1= new Event(sdf.parse("02/22/2013"));
+			Event e2= new Event(sdf.parse("03/12/2012"), sdf.parse("04/13/2012"));
 			e1.addTweet(t1);
 			e1.addTweet(t2);
 			e1.addTweet(t3);
 			
 			// STUB : add events in list
 			l.add(e1);
+			l.add(e2);
 			
 		} catch (ParseException e) {
 			System.err.println("error while parsing date");
 			e.printStackTrace();
 		}
 		
+		List<Event> tmp = new ArrayList<Event>();
+				
+		for (Event e : l) {
+			if (e.getStartDate().equals(d))
+			{
+				tmp.add(e);
+			}
+		}
 		
+		l=tmp;
+				
 		return l;
 	}
 
