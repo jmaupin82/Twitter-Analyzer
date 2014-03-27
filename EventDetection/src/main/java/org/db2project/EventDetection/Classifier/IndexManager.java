@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.index.Term;
 import org.apache.lucene.store.FSDirectory;
 
 /**
@@ -28,7 +29,16 @@ public class IndexManager {
 	
 	/** This is the path where the index is stored. */
 	private static final String PATH = "";
-		
+	
+	/** The name of the field of a document (in lucene) that has the 
+	 * hashtags. */
+	public static final String HASHTAG_FIELD = "hashtag";
+	
+	/** The name of the field of a document (in lucene) that has the 
+	 * tokens. */
+	public static final String TOKENS_FIELD  = "tokens";
+	
+	
 	public IndexManager(String indexPath) {
 		indexReader = null;
 		try {
@@ -45,10 +55,19 @@ public class IndexManager {
 	 * 
 	 * @param word
 	 * @return
+	 * @throws IOException 
 	 */
-	public int getCountWordOccurrences(String word) {
-		// TODO 
-		return 0;
+	public long getCountWordOccurrences(String word) {
+		Term termInstance = new Term(TOKENS_FIELD, word); 
+		long tweetCount = -1;
+		
+		try {
+			tweetCount = indexReader.docFreq(termInstance);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return tweetCount;
 	}
 
 	/**
@@ -59,9 +78,13 @@ public class IndexManager {
 	 * @param word
 	 * @return
 	 */
-	public int getDocumentFrequency(String word) {
-		// TODO
-		return 0;
+	public float getDocumentFrequency(String word) {
+		long tweetCount = getCountWordOccurrences(word);
+		
+		// Get the total number of tweets in the index.
+		int totalNumberOfTweets = indexReader.numDocs();
+		
+		return (float)tweetCount/(float)totalNumberOfTweets;
 	}
 
 	/**
