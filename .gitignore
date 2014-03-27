@@ -2,6 +2,7 @@
 /target/
 
 *.class
+*.DS_Store
 
 # Package Files #
 *.jar
