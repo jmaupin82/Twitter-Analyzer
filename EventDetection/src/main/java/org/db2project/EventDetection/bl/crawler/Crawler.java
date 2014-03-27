@@ -5,7 +5,10 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
-import org.db2project.EventDetection.dao.Tweet;
+
+
+
+import org.db2project.EventDetection.Classifier.Tweet;
 
 import twitter4j.internal.org.json.JSONArray;
 import twitter4j.internal.org.json.JSONException;
@@ -55,7 +58,7 @@ public class Crawler {
 		JSONObjectParser parser = new JSONObjectParser();
 
 		// Do whatever needs to be done with messages
-		for (int msgRead = 0; msgRead < 20; msgRead++) {
+		for (int msgRead = 0; msgRead < 200000; msgRead++) {
 			if (client.isDone()) {
 				System.out.println("Client connection closed unexpectedly: " + client.getExitEvent().getMessage());
 				break;
@@ -70,7 +73,7 @@ public class Crawler {
 				} else {
 					// TODO: we create a jsonObject that only contains fields we care about. 
 					// Right now we're just dumping the whole thing.
-					System.out.println(msg);
+					//System.out.println(msg);
 					//build a tweet from the message
 					buildTweetFromMessage(msg);
 
@@ -102,6 +105,7 @@ public class Crawler {
 		JSONObject author = new JSONObject(obj.getString("user"));
 		String userName = author.getString("name");
 		String text = obj.getString("text");
+		text = stripCommas(text);
 		String date = obj.getString("created_at");
 		//get the time and date out of the big date string
 		String[] split = date.split(" ");
@@ -111,7 +115,7 @@ public class Crawler {
 		date = split[1] + " " + split[2];
 		
 		Tweet tMessage = new Tweet(userName, date, time, text);
-		System.out.println(tMessage);
+		//System.out.println(tMessage);
 		if(db.saveTweet(tMessage)){
 			System.out.println("message successfully saved!");
 		}
@@ -119,6 +123,23 @@ public class Crawler {
 			System.out.println("the message was not saved :(");
 		}
 		
+	}
+	
+	/**
+	 * Primitive parsing function that will strip out commas from the tweets
+	 * 
+	 * @param input		Input String that does or doesn't contain commas
+	 * @return			String free of commas
+	 */
+	public static String stripCommas(String input){
+		
+		String[] temp = input.split(",");
+		String result = "";
+		for(int i = 0; i < temp.length; i++){
+			result+= temp[i];
+		}
+		
+		return result;
 	}
 
 }
