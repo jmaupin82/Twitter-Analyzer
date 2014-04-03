@@ -13,26 +13,27 @@ public class CoOccurrenceGraphConstruction {
 	 * @param tweets
 	 */
 	public static CoOccurrenceListGraph buildCoOccurrenceGraph(
-			Set<TopicalWord> topicalWords,
-			Set<Tweet> tweets) {
+			Set<String> topicalWords) {
 
-		HashSet<Edge<TopicalWord>> edges = new HashSet<Edge<TopicalWord>>();
-		HashSet<GraphNode<TopicalWord>> nodes = new HashSet<GraphNode<TopicalWord>>();
+		HashSet<Edge<String>> edges = new HashSet<Edge<String>>();
+		HashSet<GraphNode<String>> nodes = new HashSet<GraphNode<String>>();
 
 		/* Build a set of edges between topical words that coOccur */
-		for(TopicalWord wordOne : topicalWords) {
-			for(TopicalWord wordTwo : topicalWords) {
-				if (!wordOne.equals(wordTwo)) {
-					int strength = coOccurs(wordOne, wordTwo);
+		for(String topicalWordOne : topicalWords) {
+			for(String topicalWordTwo : topicalWords) {
+				if (!topicalWordOne.equals(topicalWordTwo)) {
+					int strength = IndexManager
+							.getInstance()
+							.countCoOccurrences(topicalWordOne, topicalWordTwo);
 
 					if(strength != 0) {
-						GraphNode<TopicalWord> src = 
-								new GraphNode<TopicalWord>(wordOne);
-						GraphNode<TopicalWord> dst = 
-								new GraphNode<TopicalWord>(wordTwo);
+						GraphNode<String> src = 
+								new GraphNode<String>(topicalWordOne);
+						GraphNode<String> dst = 
+								new GraphNode<String>(topicalWordTwo);
 
 						// Add the edge to the set of edges of the graph.
-						edges.add(new Edge<TopicalWord>(
+						edges.add(new Edge<String>(
 								src, 
 								dst, 
 								strength));
@@ -49,29 +50,5 @@ public class CoOccurrenceGraphConstruction {
 				new CoOccurrenceListGraph(nodes,edges, nodes.size());
 
 		return graph;
-	}
-
-	/**
-	 * This method returns the number of tweets in which both
-	 * words provided co-occur.
-	 * @param wordOne
-	 * @param wordTwo
-	 * @return
-	 */
-	private static int coOccurs(TopicalWord wordOne, TopicalWord wordTwo) {
-
-		// We copy the set tweetSetOne, because the retainAll
-		// method modifies the set in-place.
-		Set<Tweet> tweetSetOne = new HashSet<Tweet>();	
-		Set<Tweet> tweetSetTwo = wordTwo.getTweetsWhereOccurs();
-		tweetSetOne.addAll(wordOne.getTweetsWhereOccurs());
-
-		// Find the intersection of the set of tweets where
-		// wordOne and wordTwo occur.
-		tweetSetOne.retainAll(tweetSetTwo);
-
-		// The size of the intersection is the strength of the
-		// co-occurrence.
-		return tweetSetOne.size();
 	}
 }

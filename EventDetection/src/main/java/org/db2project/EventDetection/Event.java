@@ -11,6 +11,12 @@ import org.db2project.EventDetection.Classifier.Tweet;
 import com.twitter.hbc.core.endpoint.Location;
 
 @XmlRootElement
+/**
+ * This class implements a model for an Event.
+ * 
+ * @author 
+ *
+ */
 public class Event {
 	
 	/**
@@ -114,6 +120,12 @@ public class Event {
 	{
 		return tweets.addAll(tweets);
 	}
+	
+	
+	/*
+	 * Getters and Setters
+	 * 
+	 */
 	
 	public String getId() {
 		return id;

@@ -135,6 +135,22 @@ public class IndexManager {
 	public int getTotalNumberOfDocuments() {
 		return indexReader.numDocs();
 	}
+	
+	
+	/**
+	 * Given 2 strings (most likely they are topical words),
+	 * count the number of tweets (documents) in which <both>
+	 * of them occur.
+	 * 
+	 * @param word1
+	 * @param word2
+	 * @return
+	 * 
+	 */
+	public int countCoOccurrences(String word1, String word2) {
+		// TODO
+		return 0;
+	}
 
 	/**
 	 * This method returns an iterator to go through all the 
