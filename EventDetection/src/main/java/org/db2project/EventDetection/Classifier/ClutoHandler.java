@@ -20,8 +20,14 @@ public class ClutoHandler {
 	private static final String LIST_FILE = "sports.mat";
 	/** The name of the file that contains the labels for the features */
 	private static final String LABEL_FILE = "sports.clabel";
+	
+	/** The operating system name */
+	private static final String OS_NAME = System.getProperty("os.name")
+									 	   .split(" ")[0]
+										   .replace(" ", "");
+	
 	/** The path to the CLUTO binaries. */
-	private static final String BINARIES_PATH = "./resources/Linux/";
+	private static final String BINARIES_PATH = "./resources/" + OS_NAME + "/";
 	/** This path is for test purposes only */
 	private static final String PATH= "/home/eleal/AdvancedDB/Twitter/cluto-2.1.1/samples/";
 	/** The actual command that will be passed to a shell to run CLUTO. */
@@ -72,6 +78,7 @@ public class ClutoHandler {
 	 * @return
 	 */
 	public String runClusteringAlgorithm() {
+		System.out.println("[INFO] Running Cluto with command:");
 		System.out.println(command);
 		StringBuffer output = new StringBuffer();
 		
