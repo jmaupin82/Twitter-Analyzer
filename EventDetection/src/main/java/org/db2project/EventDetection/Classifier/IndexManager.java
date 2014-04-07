@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.SimpleAnalyzer;
+import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.index.DirectoryReader;
@@ -12,6 +14,12 @@ import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.Term;
+import org.apache.lucene.queryparser.classic.ParseException;
+import org.apache.lucene.queryparser.classic.QueryParser;
+import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.Query;
+import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
 
@@ -34,6 +42,8 @@ public class IndexManager {
 	private IndexReader indexReader;
 
 	private IndexWriter indexWriter;
+	
+	private IndexSearcher indexSearcher;
 
 	/** This attribute is the singleton instance. */
 	private static IndexManager instance = null;
@@ -59,7 +69,7 @@ public class IndexManager {
 
 		try {
 			this.indexWriter = new IndexWriter(FSDirectory.open(new File(PATH)), indexWriterConfig);
-
+			
 			//first ask the database to give me all of the tweets.
 			OracleDAL db = new OracleDAL();
 			long bob = System.currentTimeMillis();
@@ -83,6 +93,7 @@ public class IndexManager {
 		indexReader = null;
 		try {
 			indexReader = DirectoryReader.open(FSDirectory.open(new File(indexPath)));
+			indexSearcher = new IndexSearcher(indexReader);
 			docIterator = new DocumentIterator(indexReader);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -146,11 +157,42 @@ public class IndexManager {
 	 * @param word2
 	 * @return
 	 * 
+	 * 
 	 */
 	public int countCoOccurrences(String word1, String word2) {
-		// TODO
-		return 0;
+		Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_47);
+		QueryParser parser = new QueryParser(Version.LUCENE_47, TOKENS_FIELD, analyzer);
+		// We want to search all documents where BOTH words occur.
+		String line = word1 + " AND " + word2;
+		
+		Query query = null;
+		try {
+			query = parser.parse(line);
+			int maxHits = indexReader.numDocs();
+			
+			TopDocs hits;
+			
+			hits = indexSearcher.search(query,maxHits);
+			
+			ScoreDoc[] scoreDocs = hits.scoreDocs;
+			
+			System.out.println("Coocurrence score: "+ scoreDocs.length);
+			System.out.println("total docs count: "+ maxHits);
+			
+			return scoreDocs.length;
+			
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		System.out.println("Coocurrence score: "+ -1);
+		return -1;
 	}
+
 
 	/**
 	 * This method returns an iterator to go through all the 
@@ -164,7 +206,7 @@ public class IndexManager {
 
 
 	public static IndexManager getInstance() {
-		if(instance != null) {
+		if(instance == null) {
 			instance = new IndexManager(PATH);
 		}
 		return instance;
