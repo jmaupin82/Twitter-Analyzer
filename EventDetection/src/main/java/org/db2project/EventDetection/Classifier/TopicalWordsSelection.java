@@ -79,7 +79,8 @@ public class TopicalWordsSelection {
 		Document doc;
 		// For every token in every tweet.
 		while( (doc = indexManager.getDocIterator().next()) != null){
-			for(String token: doc.get(IndexManager.TOKENS_FIELD).split(",")) {
+			String docField = doc.get(IndexManager.TOKENS_FIELD);
+			for(String token: docField.split(",")) {
 				float tokenDocumentFrequency = getDocumentFrequency(token);
 				totalFrequencies += tokenDocumentFrequency; 
 				tokenFrequencies.put(token, tokenDocumentFrequency);

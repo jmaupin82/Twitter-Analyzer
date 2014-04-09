@@ -63,6 +63,7 @@ public class AdjacencyMatrixGraph<T> implements Graph<T> {
 		nodeToNumMapping = new Hashtable<GraphNode<T>, Integer>(numNodes);
 		numToNodeMapping = new Hashtable<Integer,GraphNode<T>>(numNodes);
 		adjacencyMatrix  = new float[numNodes][numNodes];
+		this.numNodes = numNodes;
 		
 		// Assign Ids to all the nodes.
 		int key = 0;

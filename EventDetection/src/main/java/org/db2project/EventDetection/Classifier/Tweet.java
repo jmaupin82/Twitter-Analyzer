@@ -39,10 +39,10 @@ public class Tweet {
 		this.date     = date;
 	}
 	
-	public Tweet(String author, String content, String day, String time){
+	public Tweet(String author, String content, String tokenString, String day, String time){
 		this.content = content;
 		this.author = author;
-		this.tokens = buildTokens();
+		this.tokens = buildTokens(tokenString);
 		this.hashTags = buildTags();
 		this.day = day;
 		this.time = time;
@@ -55,6 +55,17 @@ public class Tweet {
 
 	public Set<String> getTokens() {
 		return tokens;
+	}
+	
+	public String getTokensString(){
+		StringBuilder sb = new StringBuilder();
+		String sep = "";
+		for(String t: tokens){
+			sb.append(sep).append(t);
+			sep = ",";
+		}
+		
+		return sb.toString();
 	}
 	
 	public Set<String> getHashTags() {
@@ -124,12 +135,14 @@ public class Tweet {
 		return results;
 	}
 	
-	private Set<String> buildTokens(){
+	private Set<String> buildTokens(String tokenString){
 		HashSet<String> results = new HashSet<String>();
 		
-		String[] words = this.content.split(" ");
-		for(String w : words){
-			results.add(w);
+		if(tokenString != null){
+			String[] words = tokenString.split(",");
+			for(String w : words){
+				results.add(w);
+			}
 		}
 		return results;
 	}

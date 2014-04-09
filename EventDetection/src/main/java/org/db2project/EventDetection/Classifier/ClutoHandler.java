@@ -29,19 +29,20 @@ public class ClutoHandler {
 	/** The path to the CLUTO binaries. */
 	private static final String BINARIES_PATH = "./resources/" + OS_NAME + "/";
 	/** This path is for test purposes only */
-	private static final String PATH= "/home/eleal/AdvancedDB/Twitter/cluto-2.1.1/samples/";
+	private static final String PATH= "./samples/";
 	/** The actual command that will be passed to a shell to run CLUTO. */
 	private String command;
 	/** The coOccurrence graph that is passed to the CLUTO handler.*/
 	private Graph<String> graph;
 	
+	private String structureFile;
 	
 	public <T>ClutoHandler(AdjacencyStructure adjStr, Graph<String> graph) {
 		// We keep the graph in order to pass it to cluto.
 		this.graph = graph;
 		
 		String classFileName = null;
-		String structureFile = null;
+//		String structureFile = null;
 		
 		/*
 		 * Depending on the type of AdjacencyStructure provided as an
@@ -84,6 +85,7 @@ public class ClutoHandler {
 		
 		Process p;
 		try {
+			graph.printToFile(structureFile);
 			p = Runtime.getRuntime().exec(command);
 			p.waitFor();
 			BufferedReader reader = 

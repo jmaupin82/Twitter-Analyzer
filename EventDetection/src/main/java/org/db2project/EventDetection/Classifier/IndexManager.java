@@ -68,6 +68,7 @@ public class IndexManager {
 		IndexWriterConfig indexWriterConfig = new IndexWriterConfig(Version.LUCENE_47, analyzer);
 
 		try {
+			System.out.println("Building the Index...");
 			this.indexWriter = new IndexWriter(FSDirectory.open(new File(PATH)), indexWriterConfig);
 			
 			//first ask the database to give me all of the tweets.
@@ -214,14 +215,16 @@ public class IndexManager {
 
 	public int indexDocsFromList(IndexWriter writer, ArrayList<Tweet> list) throws Exception{
 		for(Tweet t : list){
-			Document d = new Document();  
-			d.add(new Field("message", t.getContent(), Field.Store.YES, Field.Index.ANALYZED));
-			//		     d.add(new Field("author" , rs.getString("author"),Field.Store.YES, Field.Index.ANALYZED));
-
-			d.add(new Field("Date", t.getDay(), Field.Store.YES, Field.Index.ANALYZED)); 
-
-			writer.addDocument(d);
-		}
+			
+			// Make sure we're not indexing null values, otherwise the indexWriter will crash. 
+			if(t.getTokens().size() > 0 && t.getAuthor() != null && t.getDay() != null){
+				Document d = new Document();  
+				d.add(new Field("tokens", t.getTokensString(), Field.Store.YES, Field.Index.ANALYZED));
+				d.add(new Field("author" , t.getAuthor(), Field.Store.YES, Field.Index.ANALYZED));
+				d.add(new Field("Date", t.getDay(), Field.Store.YES, Field.Index.ANALYZED)); 
+				writer.addDocument(d);
+			}
+					}
 		return list.size();
 	}
 

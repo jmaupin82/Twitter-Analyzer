@@ -10,8 +10,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.db2project.EventDetection.Event;
-import org.db2project.EventDetection.Location;
+import org.db2project.EventDetection.bl.crawler.TwitterTokenizer;
 
 
 
@@ -42,7 +44,7 @@ public class OracleDAL implements IDAL{
 	 */
 	public List<Tweet> getAllTweets(){
 		
-		String query = "SELECT * FROM tweet";
+		String query = "SELECT * FROM tweets";
 		List<Tweet> tweets = new ArrayList<Tweet>();
 		
 		try {
@@ -55,8 +57,9 @@ public class OracleDAL implements IDAL{
 				String content = result.getString("content");
 				String day = result.getString("day");
 				String time = result.getString("time");
-				tweets.add(new Tweet(author,content,day,time));
-				
+				String tokens = result.getString("tokens");
+				System.out.println("tokens: "+tokens);
+				tweets.add(new Tweet(author,content, tokens, day,time));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -66,6 +69,58 @@ public class OracleDAL implements IDAL{
 		return tweets;
 		
 	}
+	
+	/**
+	 *  This is a ONE-TIME migration that we run to create a table
+	 *  that contains tokens for tweets.
+	 */
+	public void migrateTweets(){
+		String query = "SELECT * FROM tweet";
+		
+		try {
+			Statement stmt = connection.createStatement();
+			ResultSet result = stmt.executeQuery(query);
+			String query2 = "";
+			TwitterTokenizer tokenizer = new TwitterTokenizer(); 
+			Statement stmtinsert;
+			while(result.next())
+			{
+				//get the tweet information from the database
+				String author = TwitterTokenizer.cleanupAuthor(result.getString("author"));
+				String content = result.getString("content");
+				String day = result.getString("day");
+				String time = result.getString("time");
+				
+				// Get tokens
+				List<String> tokenList = tokenizer.tokenize(content, true);
+				String tokens = TwitterTokenizer.concatTokens(tokenList, ",");
+				query2 = "INSERT INTO TWEETS VALUES('"
+						+ author +"','"
+						+ time +"','"
+						+ day +"','"
+						+ escapeSql(content) +"','"
+						+ tokens 
+						+ "')";
+				
+				//Insert into the new table
+				System.out.println(query2);
+				stmtinsert = connection.createStatement();
+				stmtinsert.executeQuery(query2);
+				stmtinsert.close();
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static String escapeSql(String str) {
+		if (str == null) {
+			return null;
+		}
+		return StringUtils.replace(str, "'", "''");
+	}
+	    
 	
 	// TO BE COMPLETED
 	
