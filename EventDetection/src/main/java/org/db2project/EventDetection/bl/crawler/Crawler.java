@@ -114,15 +114,15 @@ public class Crawler {
 		String time = timeSplit[0] + ":" + timeSplit[1];
 		date = split[1] + " " + split[2];
 		
-		Tweet tMessage = new Tweet(userName, date, time, text);
-		//System.out.println(tMessage);
-		if(db.saveTweet(tMessage)){
-			System.out.println("message successfully saved!");
-		}
-		else{
-			System.out.println("the message was not saved :(");
-		}
-		
+//		//Tweet tMessage = new Tweet(userName, date, time, text);
+//		//System.out.println(tMessage);
+//		if(db.saveTweet(tMessage)){
+//			System.out.println("message successfully saved!");
+//		}
+//		else{
+//			System.out.println("the message was not saved :(");
+//		}
+//		
 	}
 	
 	/**

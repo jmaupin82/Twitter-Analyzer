@@ -18,6 +18,13 @@ public class CoOccurrenceGraphConstruction {
 		HashSet<Edge<String>> edges = new HashSet<Edge<String>>();
 		HashSet<GraphNode<String>> nodes = new HashSet<GraphNode<String>>();
 
+		/*
+		 * Used to check the progress how many pairs of topical words
+		 * have been examined.
+		 * 
+		 */
+		int countTopicalWordPairs = 0;
+		
 		/* Build a set of edges between topical words that coOccur */
 		for(String topicalWordOne : topicalWords) {
 			for(String topicalWordTwo : topicalWords) {
@@ -43,7 +50,9 @@ public class CoOccurrenceGraphConstruction {
 						nodes.add(dst);
 					} // End if (strength != 0)
 				} // End if (!wordOne.equals(wordTwo)
+				countTopicalWordPairs++;
 			} // End for (Topical Word wordTwo : topicalWords)
+			System.out.println("Number of Pairs examined: " + countTopicalWordPairs);
 		}  // End for (Topical Word wordOne : topicalWords)
 
 		CoOccurrenceListGraph graph = 

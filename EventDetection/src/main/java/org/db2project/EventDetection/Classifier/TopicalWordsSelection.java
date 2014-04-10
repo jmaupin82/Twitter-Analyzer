@@ -74,19 +74,26 @@ public class TopicalWordsSelection {
 	 */
 	private float getAverageDocumentFrequency(
 			HashMap<String, Float> tokenFrequencies) {
-		int totalFrequencies = 0;
+		float totalFrequencies = 0;
 
 		Document doc;
+	
 		// For every token in every tweet.
+		
 		while( (doc = indexManager.getDocIterator().next()) != null){
 			String docField = doc.get(IndexManager.TOKENS_FIELD);
+			
 			for(String token: docField.split(",")) {
 				float tokenDocumentFrequency = getDocumentFrequency(token);
-				totalFrequencies += tokenDocumentFrequency; 
-				tokenFrequencies.put(token, tokenDocumentFrequency);
+				//System.out.println(tokenDocumentFrequency);
+				if(!tokenFrequencies.containsKey(token)){
+					totalFrequencies += tokenDocumentFrequency;
+					tokenFrequencies.put(token, tokenDocumentFrequency);
+				}
+				 
+					
 			}
 		}
-		
 		return totalFrequencies / ((float) indexManager.getTotalNumberOfDocuments());
 	}
 	/**
@@ -137,6 +144,7 @@ public class TopicalWordsSelection {
 		
 		
 		Document doc;
+		indexManager.getDocIterator().restart();
 		// For every token in every tweet.
 		while( (doc = indexManager.getDocIterator().next()) != null){
 			for(String token: doc.get(IndexManager.TOKENS_FIELD).split(",")) {
@@ -147,6 +155,9 @@ public class TopicalWordsSelection {
 				numTokens++;
 			}
 		}
+		
+		indexManager.getDocIterator().restart();
+
 		
 		// For every token in every tweet.
 		while( (doc = indexManager.getDocIterator().next()) != null){
@@ -188,11 +199,14 @@ public class TopicalWordsSelection {
 		float averageDocumentFrequency = getAverageDocumentFrequency(
 				tokenFrequencies);
 		
-		
+		System.out.println("Avg doc frequency: " + averageDocumentFrequency);
 		Document doc;
+		indexManager.getDocIterator().restart();
+
 		// For every token in every tweet.
 		while( (doc = indexManager.getDocIterator().next()) != null){
 			for(String token: doc.get(IndexManager.TOKENS_FIELD).split(",")) {
+				//System.out.println(tokenFrequencies.get(token));
 				if(tokenFrequencies.get(token)>= averageDocumentFrequency) {
 					candidateTopicalWords.add(token);
 				}
@@ -204,26 +218,26 @@ public class TopicalWordsSelection {
 		 *   is too low.
 		 */	
 		// This map will contain for each token, its document frequency.
-		HashMap<String, Float> tokenHashTagProbabilities = new HashMap<String,Float>();
-		float averageHashTagProbability = 
-				getAverageHashTagProbability(tokenHashTagProbabilities);
+//		HashMap<String, Float> tokenHashTagProbabilities = new HashMap<String,Float>();
+//		float averageHashTagProbability = 
+//				getAverageHashTagProbability(tokenHashTagProbabilities);
 
-		// For every token in every tweet.
-		while( (doc = indexManager.getDocIterator().next()) != null){
-			for(String token: doc.get(IndexManager.TOKENS_FIELD).split(",")) {
-				if(tokenHashTagProbabilities.get(token)< averageHashTagProbability) {
-					candidateTopicalWords.remove(token);
-				}
-			}
-		}
-		
+//		// For every token in every tweet.
+//		while( (doc = indexManager.getDocIterator().next()) != null){
+//			for(String token: doc.get(IndexManager.TOKENS_FIELD).split(",")) {
+//				if(tokenHashTagProbabilities.get(token)< averageHashTagProbability) {
+//					candidateTopicalWords.remove(token);
+//				}
+//			}
+//		}
+//		
 		
 		/*
 		 *  4. Filter those tokens whose entropy is too high.
 		 */	
 		
 		
-		return topicalWords;
+		return candidateTopicalWords;
 	}
 	
 	

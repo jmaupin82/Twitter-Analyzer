@@ -73,17 +73,16 @@ public class IndexManager {
 			
 			//first ask the database to give me all of the tweets.
 			OracleDAL db = new OracleDAL();
-			long bob = System.currentTimeMillis();
 			ArrayList<Tweet> list = (ArrayList<Tweet>) db.getAllTweets();
-			long bob1 = System.currentTimeMillis();
-			System.out.println("Retrieved all the tweets in "  + (bob1 - bob)/1000 + " seconds.");
+			
+			
 
 			//now build the index
-			bob = System.currentTimeMillis();
+			
 			int indexedDocumentCount = this.indexDocsFromList(indexWriter, list); 
-			long bob2 = System.currentTimeMillis();
+			
 			indexWriter.close();  
-			System.out.println(indexedDocumentCount + " records have been indexed successfully in " + (bob2-bob)/1000 +" seconds");
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -177,8 +176,8 @@ public class IndexManager {
 			
 			ScoreDoc[] scoreDocs = hits.scoreDocs;
 			
-			System.out.println("Coocurrence score: "+ scoreDocs.length);
-			System.out.println("total docs count: "+ maxHits);
+//			System.out.println("Coocurrence score: "+ scoreDocs.length);
+//			System.out.println("total docs count: "+ maxHits);
 			
 			return scoreDocs.length;
 			

@@ -30,6 +30,8 @@ public class EventDetectorApp {
 			TopicalWordsSelection topicalWordSelector = new TopicalWordsSelection();
 			Set<String> topicalWords = topicalWordSelector.selectTopicalWords();
 			
+			System.out.println(topicalWords.size());
+			//System.exit(0);
 			/*
 			 * Step 2. Build the co-Occurrence Graph
 			 */

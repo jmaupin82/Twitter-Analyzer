@@ -50,6 +50,7 @@ public class OracleDAL implements IDAL{
 		try {
 			Statement stmt = connection.createStatement();
 			ResultSet result = stmt.executeQuery(query);
+			int count = 0;
 			while(result.next())
 			{
 				//get the tweet information from the database
@@ -60,6 +61,8 @@ public class OracleDAL implements IDAL{
 				String tokens = result.getString("tokens");
 				System.out.println("tokens: "+tokens);
 				tweets.add(new Tweet(author,content, tokens, day,time));
+				if(++count == 5000)
+					break;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

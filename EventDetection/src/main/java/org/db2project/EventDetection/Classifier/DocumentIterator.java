@@ -50,6 +50,14 @@ public class DocumentIterator implements Iterator<Document> {
 		}
 		return doc;
 	}
+	
+	/**
+	 * Restarts the iterator back to the first index.
+	 * @return
+	 */
+	public void restart(){
+		currentIndex = 0;
+	}
 
 	public void remove() {
 		// TODO Auto-generated method stub
