@@ -30,7 +30,7 @@ public class EventDetectorApp {
 			TopicalWordsSelection topicalWordSelector = new TopicalWordsSelection();
 			Set<String> topicalWords = topicalWordSelector.selectTopicalWords();
 			
-			System.out.println(topicalWords.size());
+			System.out.println("[INFO] Number of Topical Words Found: " + topicalWords.size());
 			//System.exit(0);
 			/*
 			 * Step 2. Build the co-Occurrence Graph
@@ -38,7 +38,12 @@ public class EventDetectorApp {
 			CoOccurrenceListGraph graph = CoOccurrenceGraphConstruction
 					.buildCoOccurrenceGraph(topicalWords);
 			
+			//try writing the graph to a file
 			
+			// The Graph needs to be normalized in order to call CLUTO
+			graph.normalize();
+			graph.printToFile("graph.txt");
+			System.out.println("successfully print the graph!");
 			/*
 			 * Step 3. Call the Clustering Algorithm
 			 * 

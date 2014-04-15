@@ -119,12 +119,16 @@ public class AdjacencyListGraph<T> implements Graph<T> {
 
 			// Print the matrix row by row.
 			for(GraphNode<T> src : getNodes().keySet()) {
-
+				bw.write(src.getName() + "\n");
 				for(Edge<T> edge : getNodes().get(src)){
-					bw.write( edge.getDest().getName() + " " + 
-							edge.getCost() + " ");
+					//bw.write(  + " ");
+					bw.write('\t');
+					bw.write( edge.getDest() + ":" + edge.getCost() + " ");
 				}
-				bw.write("\n");
+				if(getNodes().get(src).size() != 0){
+					bw.write("\n");
+				}
+				
 			}
 
 			// Close the file.

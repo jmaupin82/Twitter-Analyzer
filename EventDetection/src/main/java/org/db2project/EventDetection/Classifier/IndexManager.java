@@ -233,7 +233,7 @@ public class IndexManager {
 	 * @param args command line args
 	 */
 	public static void main(String args[]){
-		IndexManager im = new IndexManager();
+		//IndexManager im = new IndexManager();
 
 	}
 }
