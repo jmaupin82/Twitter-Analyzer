@@ -7,6 +7,7 @@ package org.db2project.EventDetection.Classifier;
  */
 public class GraphNode<T> {	
 	private String name;
+	private long id;
 	T element;
 	
 	public GraphNode(T element) {
@@ -25,6 +26,14 @@ public class GraphNode<T> {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public long getID(){
+		return this.id;
+	}
+	
+	public void setID(long id){
+		this.id = id;
 	}
 	
 	public String toString(){

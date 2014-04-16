@@ -3,6 +3,7 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 /**
@@ -19,9 +20,16 @@ public class AdjacencyListGraph<T> implements Graph<T> {
 
 	// The number of nodes in the graph.
 	private int numNodes;
+	//number of edges in the graph.
+	private int numEdges;
+	
+	// For every node we have its id.
+	private HashMap<Integer, GraphNode<String>> idToNodeMap;
 
 	public AdjacencyListGraph() {
-		nodes = new LinkedHashMap<GraphNode<T>, ArrayList<Edge<T>>>();
+		nodes = new LinkedHashMap<GraphNode<T>, ArrayList<Edge<T>>>(); 
+		this.numEdges = 0;
+		this.numNodes = 0;
 	}
 
 	/**
@@ -48,9 +56,9 @@ public class AdjacencyListGraph<T> implements Graph<T> {
 		// dictionary of adjacency lists.
 		ArrayList<Edge<T>> emptyList = new ArrayList<Edge<T>>();
 		getAllNodes().put(node, emptyList);
-
+		node.setID(++numNodes);
 		// Update the count of the number of nodes.
-		numNodes++;
+
 	}
 
 	/**
@@ -70,7 +78,8 @@ public class AdjacencyListGraph<T> implements Graph<T> {
 		Edge<T> edgeFromSToT = new Edge<T>(source, target, cost);
 
 		// If the edge is not there, we add it.
-		sourceNodeChildren.add(edgeFromSToT);;
+		sourceNodeChildren.add(edgeFromSToT);
+		numEdges++;
 	}
 
 	/**
@@ -104,10 +113,34 @@ public class AdjacencyListGraph<T> implements Graph<T> {
 	}
 
 	/**
+	 * This method is used to write all of the labels or row names to a single
+	 * file. This file is read by Cluto to label the objects or nodes in the graph. 
+	 * @param filename	The name of the file to be written.
+	 */
+	public void printLabels(String filename){
+		try{
+			FileWriter fileWriter = new FileWriter(filename);
+			BufferedWriter bw = new BufferedWriter(fileWriter);
+
+			for(GraphNode<T> node: getNodes().keySet()){
+				if(node.getName().equals(""))
+					continue;
+				bw.write(Long.toString(node.getID()));
+				bw.write("\n");
+			}
+			//close the file
+			bw.close();
+		}catch( IOException e){
+			e.printStackTrace();
+		}
+		
+	}
+	
+	/**
 	 * This method is used to print a set of adjacency lists to a file
 	 * following the format used by the CLUTO toolkit.
 	 * 
-	 * @param filename
+	 * @param filename The name of the file to be written.
 	 */
 	public void printToFile(String filename) {
 		try {
@@ -115,15 +148,16 @@ public class AdjacencyListGraph<T> implements Graph<T> {
 			BufferedWriter bw = new BufferedWriter(fileWriter);
 
 			// The first line must contain the number of nodes.
-			bw.write(numNodes + "\n");
+			bw.write(numNodes + " " + numEdges + "\n");
 
 			// Print the matrix row by row.
 			for(GraphNode<T> src : getNodes().keySet()) {
-				bw.write(src.getName() + "\n");
+				//bw.write(src.getName() + "\n");
 				for(Edge<T> edge : getNodes().get(src)){
 					//bw.write(  + " ");
-					bw.write('\t');
-					bw.write( edge.getDest() + ":" + edge.getCost() + " ");
+					//bw.write('\t');
+					//bw.write( edge.getDest() + ":" + edge.getCost() + " ");
+					bw.write(edge.getDest().getID() + " " +  edge.getCost() + " ");
 				}
 				if(getNodes().get(src).size() != 0){
 					bw.write("\n");

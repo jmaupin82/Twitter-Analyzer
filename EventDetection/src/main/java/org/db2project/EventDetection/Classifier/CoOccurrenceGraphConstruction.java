@@ -81,7 +81,7 @@ public class CoOccurrenceGraphConstruction {
 				} // End if (!wordOne.equals(wordTwo)
 				countTopicalWordPairs++;
 			} // End for (Topical Word wordTwo : topicalWords)
-	
+			System.out.println("So far we have looked at: " + countTopicalWordPairs + " word pairs.");
 		}  // End for (Topical Word wordOne : topicalWords)
 
 		CoOccurrenceListGraph graph = 

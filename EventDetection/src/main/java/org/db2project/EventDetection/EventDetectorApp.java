@@ -30,6 +30,8 @@ public class EventDetectorApp {
 			TopicalWordsSelection topicalWordSelector = new TopicalWordsSelection();
 			Set<String> topicalWords = topicalWordSelector.selectTopicalWords();
 			
+			checkExtraneousTopicalWords(topicalWords);
+			
 			System.out.println("[INFO] Number of Topical Words Found: " + topicalWords.size());
 			//System.exit(0);
 			/*
@@ -42,13 +44,14 @@ public class EventDetectorApp {
 			
 			// The Graph needs to be normalized in order to call CLUTO
 			graph.normalize();
-			graph.printToFile("graph.txt");
+			graph.printLabels(ClutoHandler.PATH + ClutoHandler.LABEL_FILE);
+			graph.printToFile(ClutoHandler.PATH + ClutoHandler.CLASS_FILE);
 			System.out.println("successfully print the graph!");
 			/*
 			 * Step 3. Call the Clustering Algorithm
 			 * 
 			 */
-			ClutoHandler cluto = new ClutoHandler(AdjacencyStructure.MATRIX, graph);
+			ClutoHandler cluto = new ClutoHandler(AdjacencyStructure.LIST, graph);
 
 			// Test Graph
 //			GraphNode<String> node1 = new GraphNode<String>("node1");
@@ -83,4 +86,11 @@ public class EventDetectorApp {
 		}
 	}
 
+	public static void checkExtraneousTopicalWords(Set<String> topicalWords) {
+		for(String topicalWord: topicalWords) {
+			if(!topicalWord.matches("^[a-zA-Z0-9]+$")) {
+				System.out.println(topicalWord);
+			}
+		}
+	}
 }
