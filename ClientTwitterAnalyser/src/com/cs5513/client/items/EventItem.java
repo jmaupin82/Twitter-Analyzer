@@ -107,7 +107,7 @@ public class EventItem {
 		
 		if (endDate != null)
 		{
-			sb.append("/nend date:");
+			sb.append("\nend date:");
 			sb.append(endDate);
 		}
 		
@@ -125,12 +125,12 @@ public class EventItem {
 			sb.append("]");
 		}
 		
-		sb.append("\ntweets:\n{");
+		/*sb.append("\ntweets:\n");
 		for(TweetItem t : tweets)
 		{
 			sb.append(t);
-		}
-		sb.append("\n\n\n}");
+			sb.append("\n\n");
+		}*/
 		
 		return sb.toString();
 	}

@@ -30,7 +30,7 @@ public class ClientTwitterAnalyzer {
 		ClientConfig config;
 		Client client;
 		WebResource service;
-		String json;
+		String json = null;
 		
 		config = new DefaultClientConfig();
 		client = Client.create(config);
@@ -47,12 +47,12 @@ public class ClientTwitterAnalyzer {
 			SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
 			try {
 				sdf.parse(date);
+				json = getAllEventsByDate(date, service);
 			} catch (ParseException e) {
 				System.err.println("Error - Invalid date");
 				System.err.println("Usage: ClientTwitterAnalyzer [MM-dd-yyyy]");
 			}
-			
-			json = getAllEventsByDate(date, service);
+
 		}
 		else
 		{

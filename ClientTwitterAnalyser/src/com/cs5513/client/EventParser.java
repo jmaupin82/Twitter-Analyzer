@@ -83,10 +83,10 @@ public class EventParser {
 	 	String keyWords = null;
 	 	LocationItem location = null;
 	 	
-	 	if (!object.isNull(EVENT_TWEETS))
+	 	/*if (!object.isNull(EVENT_TWEETS))
 	 	{
 	 		tweets = parseTweets(object.getJSONArray(EVENT_TWEETS));
-	 	}
+	 	}*/
 	 	
 	 	if (!object.isNull(EVENT_KEYWORDS))
 	 	{

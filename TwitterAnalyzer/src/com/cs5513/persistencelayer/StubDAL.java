@@ -27,9 +27,11 @@ public class StubDAL implements IDAL{
 			// STUB : Events creation 
 			Event e1= new Event(sdf.parse("03/22/2013"));
 			Event e2= new Event(sdf.parse("03/12/2012"), sdf.parse("04/13/2012"));
-			e1.addTweet(t1);
-			e2.addTweet(t2);
-			e2.addTweet(t3);
+			e1.addKeyWord("weather");
+			e1.addKeyWord("rain");
+			e2.addKeyWord("weather");
+			e2.addKeyWord("hale");
+			e2.addKeyWord("blizzard");
 			
 			// STUB : add events in list
 			l.add(e1);
@@ -59,9 +61,11 @@ public class StubDAL implements IDAL{
 			// STUB : Events creation 
 			Event e1= new Event(sdf.parse("02/22/2013"));
 			Event e2= new Event(sdf.parse("03/12/2012"), sdf.parse("04/13/2012"));
-			e1.addTweet(t1);
-			e1.addTweet(t2);
-			e1.addTweet(t3);
+			e1.addKeyWord("weather");
+			e1.addKeyWord("rain");
+			e2.addKeyWord("weather");
+			e2.addKeyWord("hale");
+			e2.addKeyWord("blizzard");
 			
 			// STUB : add events in list
 			l.add(e1);
